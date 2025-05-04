@@ -132,8 +132,53 @@ export class UserCardComponent {
 ---
 ---
 
-- Qu'est-ce que zone.js
-  => changeDetection.onpush
+# Zone.js pour une application réactive
+<style>
+  p {
+    color: orange;
+    border: 1px solid orange;
+    text-align: center;
+    padding: 10px
+  }
+
+</style>
+<div grid="~ cols-2 gap-4">
+<div>
+
+- Librairie JavaScript qui **patch** les API async (setTimeout, Promises, XHR…)
+- Angular (depuis V2) s’appuie dessus pour **savoir automatiquement quand lancer la détection des changements**
+
+<div v-click="1" v-motion
+  :initial="{ x: -50 }"
+  :enter="{ x: 0 }"
+>
+<br>
+<br>
+  <p>Trop magique et trop gourmand</p>
+</div>
+
+</div>
+
+<div>
+
+```mermaid {theme: 'neutral', scale: 0.5}
+graph TD
+  A[Zone.js] --> B[Événement déclenché : http, setTimeout, observable]
+  B --> C[Angular détecte un changement]
+  C --> D[Traverse l'arbre des composants]
+  D --> E[AppComponent racine]
+  E --> F[HeaderComponent]
+  E --> G[MainComponent]
+  G --> H[SidebarComponent]
+  G --> I[ContentComponent]
+  I --> J[WidgetA]
+  I --> K[WidgetB]
+```
+</div>
+</div>
+
+---
+---
 
 - Zoneless
 - Signal
