@@ -40,7 +40,7 @@ Voyons ensemble les dernières nouveautés, quelques exemples pertinents. Et les
 
 - 📝 **Nouveautés** -> Présentation générale des nouveautés Angular.
 - 🎨 **Signal vs zone.js** -> L'interêt de se passer de zone.js.
-- 🧑‍💻 **Signal vs Observable** -> Angular réactif. 
+- 🧑‍💻 **Signal vs Observable et complémentarité** -> Angular réactif. 
 - 🤹 **Migration** -> Aide à la montée de version.
 - 🎥 **Architecture** -> Un exemple d'architecture employé en mission.
 

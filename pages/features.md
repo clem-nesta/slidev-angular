@@ -37,13 +37,13 @@ level: 2
 ###### @for
 
 ````md magic-move {lines: true}
-```ts {*|2}
+```html {*|2}
 <ul>
   <li *ngFor="let item of items">{{ item }}</li>
 </ul>
 ```
 
-```ts {2|*}
+```html {2|*}
 <ul>
   @for (item of items; track item) {
     <li>{{ item }}</li>
@@ -60,7 +60,7 @@ level: 2
 ###### @switch
 
 ````md magic-move {lines: true}
-```ts {*|1}
+```html {*|1}
 <div [ngSwitch]="status">
   <p *ngSwitchCase="'loading'">Chargement...</p>
   <p *ngSwitchCase="'success'">Succès ✅</p>
@@ -180,11 +180,153 @@ graph TD
 ---
 ---
 
-- Zoneless
-- Signal
-  => computed et effect
-- Signal input
+# Zoneless pour une meilleure application réactive
+<div grid="~ cols-2 gap-4">
+<div>
 
-=> Gain du zoneless
+- Dépendance externe progressivement retiré d'Angular.
+- Angular au travers des signals, sait exactement quel composant mettre à jour.
+
+</div>
+
+<div>
+
+```mermaid {theme: 'neutral', scale: 0.5}
+graph TD
+A[Zoneless Angular] --> B[Signals, EventHandlers]
+  B --> C[Détection ciblée]
+  C --> D[Composant concerné uniquement]
+```
+</div>
+
+
+</div>
+
+<div v-click="1" v-motion
+  :initial="{ x: -50 }"
+  :enter="{ x: 0 }"
+>
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+```ts {*}
+Typescript
+providers: [
+    provideZoneChangeDetection('noop') //in main.ts
+  ]
+
+changeDetection: ChangeDetectionStrategy.OnPush
+
+const count = signal(0);
+const double = computed(() => count() * 2);
+
+effect(() => {
+  console.log("Double:", double());
+});
+
+count.set(1);
+```
+</div>
+
+<div>
+```html {*}
+Template html
+<div>
+    <p>{{count()}}</p>
+</div>
+```
+</div>
+
+</div>
+
+</div>
+---
+---
+
+# Signal props binding
+
+- Intègre les capacités des signals (computed, effect, etc)
+
+<br>
+
+### Input()
+<div grid="~ cols-2 gap-4">
+
+<div>
+````md magic-move {lines: true}
+```ts {*|1}
+@Input()
+protected name: string:
+```
+
+```ts {*}
+protected name = input.required<string>();
+```
+````
+</div>
+
+
+<div>
+````md magic-move {lines: true}
+```html {1|0}
+<mon-composant-enfant [name]='Grégory'></mon-composant-enfant>
+```
+
+```html {1}
+<mon-composant-enfant [name]='Grégory'></mon-composant-enfant>
+```
+````
+</div>
+
+
+</div>
+
+<br>
+<br>
+
+### Output()
+<div grid="~ cols-2 gap-4">
+
+<div>
+````md magic-move {lines: true}
+```ts {*|1,2}
+@Output()
+protected setName = new EventEmitter<string>():
+
+this.setName.emit('Grérory')
+```
+
+```ts {*}
+protected name = output.<string>();
+
+this.setName.emit('Grérory')
+```
+````
+</div>
+
+
+<div>
+````md magic-move {lines: true}
+```html {1|0}
+<mon-composant-enfant (setName)='setName($event)'></mon-composant-enfant>
+```
+
+```html {1}
+<mon-composant-enfant (setName)='setName($event)'></mon-composant-enfant>
+```
+````
+</div>
+
+
+</div>
+---
+---
+
+# Signal vs Observable
+
+
+---
+---
 => Signal vs observable (unsubscribe)  
 => pipe observable
