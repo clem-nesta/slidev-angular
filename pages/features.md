@@ -234,6 +234,7 @@ count.set(1);
 Template html
 <div>
     <p>{{count()}}</p>
+    <p>{{double()}}</p>
 </div>
 ```
 </div>
@@ -298,7 +299,7 @@ this.setName.emit('Grérory')
 ```
 
 ```ts {*}
-protected name = output.<string>();
+protected setName = output<string>();
 
 this.setName.emit('Grérory')
 ```
@@ -324,9 +325,112 @@ this.setName.emit('Grérory')
 ---
 
 # Signal vs Observable
+- Pas de librairie externe
+- Aucun risque de fuite de mémoire (unsubscribe automatique)
 
+<br>
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+```html {*}
+<div>
+  <p>{{name$ | async}}</p>
+</div>
+```
+</div>
+
+<div>
+<div>
+```html {*}
+<div>
+  <p>{{name()}}</p>
+</div>
+```
+</div>
+</div>
+</div>
+
+<br>
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+```ts {*}
+this.name$.subscribe(data => console.log(data))
+```
+</div>
+
+<div>
+<div>
+```ts {*}
+console.log(this.name())
+```
+</div>
+</div>
+</div>
 
 ---
 ---
-=> Signal vs observable (unsubscribe)  
-=> pipe observable
+
+# Signal ET Observable
+
+<div grid="~ cols-2 gap-4">
+
+<div>
+
+### Observable
+
+- Flux de données asynchrones : appels HTTP, WebSocket, timers, etc.
+
+- Opérations complexes sur les flux : transformation, filtrage, combinaison de plusieurs flux.
+
+- toObservable()
+
+</div>
+<div>
+
+### Signal
+
+- Réactivité locale et simple : gestion d’état dans un composant ou service.
+
+- Optimisation des performances : Angular peut mieux détecter les changements.
+
+- toSignal()
+
+</div>
+</div>
+
+```ts {*}
+const users$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter(query => query.length > 2),
+      switchMap(query =>
+        this.userService.searchUsers(query).pipe(
+          catchError(() => of([])) // En cas d'erreur, on retourne une liste vide
+        )
+      )
+    );
+
+this.users = toSignal(users$, { initialValue: [] });
+```
+
+---
+---
+
+#  Rappel sur les pipes RxJS
+Les pipes permettent de chaîner des opérateurs pour transformer ou manipuler des observables :
+
+- map(fn) : transforme les valeurs.
+- switchMap(fn) : annule l’observable précédent et en crée un nouveau.
+- mergeMap(fn) : fusionne plusieurs observables.
+- concatMap(fn) : exécute les observables les uns après les autres.
+
+- filter(fn) : filtre les valeurs.
+- take(n) : prend les n premières valeurs.
+- debounceTime(ms) : attend un délai avant d’émettre.
+- distinctUntilChanged() : ignore les doublons consécutifs.
+
+- catchError(fn) : intercepte les erreurs.
+- retry(n) : réessaie n fois en cas d’erreur.
