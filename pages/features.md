@@ -1,5 +1,4 @@
 ---
-level: 2
 ---
 
 # Contrôle de flux (@if, @for, @switch)
@@ -218,7 +217,7 @@ providers: [
 
 changeDetection: ChangeDetectionStrategy.OnPush
 
-const count = signal(0);
+const count: Signal<number> = signal(0);
 const double = computed(() => count() * 2);
 
 effect(() => {
@@ -401,6 +400,7 @@ console.log(this.name())
 </div>
 </div>
 
+<div v-click>
 ```ts {*}
 const users$ = this.searchControl.valueChanges.pipe(
       debounceTime(300),
@@ -415,6 +415,9 @@ const users$ = this.searchControl.valueChanges.pipe(
 
 this.users = toSignal(users$, { initialValue: [] });
 ```
+</div>
+
+
 
 ---
 ---

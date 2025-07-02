@@ -1,3 +1,6 @@
+---
+---
+
 # Migrations 
 - migration vers standalone
 => ng generate @angular/core:standalone
@@ -18,3 +21,5 @@
 => ng update --migrate-only explicit-standalone-flag
 
 => https://angular.dev/reference/migrations
+
+=> https://angular.dev/update-guide
