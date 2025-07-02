@@ -53,7 +53,7 @@ class: object-contain
   G --> H[patchState]
   H --> I[State NGXS]
 
-  D <--> I
+  D --> I
 
 ```
  </div>
@@ -75,7 +75,7 @@ class: object-contain
 
   B --> D
 
-  E <--> J
+  E --> J
 
 ```
  </div>
@@ -98,7 +98,7 @@ class: object-contain
   D <--> K[SelectSignal / Select] 
   K <--> L[Selector] 
 
-  E <--> J
+  E --> J
 
   B --> D
 
@@ -125,7 +125,7 @@ class: object-contain
   D <--> K[SelectSignal / Select] 
   K <--> L[Selector] 
 
-  E <--> J
+  E --> J
 
   B --> D
 
